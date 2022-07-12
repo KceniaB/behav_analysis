@@ -26,7 +26,7 @@ from behav_functions import load_trials
 import matplotlib.pyplot as plt
 
 #check the eids from a certain subject
-eids = one.search(subject='ZFM-04019')
+eids = one.search(subject='ZFM-04019') 
 len(eids)
 eid = eids[12] 
 #another example session eid, from the link above in the beginning of this file 
@@ -131,7 +131,7 @@ def compute_psychometric(trials, signed_contrast=None, block=None, plotting=Fals
             parmax=np.array([np.max(contrasts), 100., 1, 1]))
 
     return psych
-def get_signed_contrast(trials):
+def get_signed_contrast(trials): 
     """
     Compute signed contrast from trials object
 
@@ -142,6 +142,9 @@ def get_signed_contrast(trials):
     # Replace NaNs with zeros, stack and take the difference
     contrast = np.nan_to_num(np.c_[trials['contrastLeft'], trials['contrastRight']])
     return np.diff(contrast).flatten() * 100
+
+contrasts_2 = [-100. , -25. , 0. , 25. , 100. ]
+
 def plot_psychometric(trials, ax=None, title=None, **kwargs):
     """
     Function to plot pyschometric curve plots a la datajoint webpage
@@ -187,7 +190,8 @@ def plot_psychometric(trials, ax=None, title=None, **kwargs):
               fontsize=8)
     ax.set_ylim(-0.05, 1.05)
     ax.set_ylabel('Probability choosing right')
-    ax.set_xlabel('Contrasts')
+    ax.set_xlabel('Contrasts') 
+    plt.xticks(contrasts_2)
     plt.axhline(y=0.5,color = 'gray', linestyle = '--',linewidth=0.25) 
     plt.axvline(x=0.5,color = 'gray', linestyle = '--',linewidth=0.25) 
     ax.spines['top'].set_visible(False)
@@ -199,7 +203,7 @@ def plot_psychometric(trials, ax=None, title=None, **kwargs):
 
     return fig, ax
 fig, ax = plot_psychometric(trials)
-fig.savefig("test_my1stpsychometricplot.png")
+#fig.savefig("test_my1stpsychometricplot.png")
 
 
 
