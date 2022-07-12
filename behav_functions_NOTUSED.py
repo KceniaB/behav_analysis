@@ -6,6 +6,9 @@ import numpy as np
 import pandas as pd
 
 #%%
+""" 
+1. load_trials
+"""
 def load_trials(eid, laser_stimulation=False, invert_choice=False, invert_stimside=False, one=None):
     import numpy as np
     import pandas as pd
@@ -90,4 +93,69 @@ def load_trials(eid, laser_stimulation=False, invert_choice=False, invert_stimsi
         trials['stim_side'] = -trials['stim_side']
         trials['signed_contrast'] = -trials['signed_contrast']
     return trials
+# %%
+""" 
+2. plot_psychometric 
+https://github.com/int-brain-lab/ibllib/blob/master/brainbox/behavior/training.py
+""" 
+
+def plot_psychometric(trials, ax=None, title=None, **kwargs):
+    """
+    Function to plot pyschometric curve plots a la datajoint webpage
+    :param trials:
+    :return:
+    """
+
+    signed_contrast = get_signed_contrast(trials)
+    contrasts_fit = np.arange(-100, 100)
+
+    prob_right_50, contrasts_50, _ = compute_performance(trials, signed_contrast=signed_contrast, block=0.5, prob_right=True)
+    pars_50 = compute_psychometric(trials, signed_contrast=signed_contrast, block=0.5, plotting=True)
+    prob_right_fit_50 = psy.erf_psycho_2gammas(pars_50, contrasts_fit)
+
+    prob_right_20, contrasts_20, _ = compute_performance(trials, signed_contrast=signed_contrast, block=0.2, prob_right=True)
+    pars_20 = compute_psychometric(trials, signed_contrast=signed_contrast, block=0.2, plotting=True)
+    prob_right_fit_20 = psy.erf_psycho_2gammas(pars_20, contrasts_fit)
+
+    prob_right_80, contrasts_80, _ = compute_performance(trials, signed_contrast=signed_contrast, block=0.8, prob_right=True)
+    pars_80 = compute_psychometric(trials, signed_contrast=signed_contrast, block=0.8, plotting=True)
+    prob_right_fit_80 = psy.erf_psycho_2gammas(pars_80, contrasts_fit)
+
+    cmap = sns.diverging_palette(20, 220, n=3, center="dark")
+
+    if not ax:
+        fig, ax = plt.subplots(**kwargs)
+    else:
+        fig = plt.gcf()
+
+    # TODO error bars
+
+    fit_50 = ax.plot(contrasts_fit, prob_right_fit_50, color=cmap[1])
+    data_50 = ax.scatter(contrasts_50, prob_right_50, color=cmap[1])
+    fit_20 = ax.plot(contrasts_fit, prob_right_fit_20, color=cmap[0])
+    data_20 = ax.scatter(contrasts_20, prob_right_20, color=cmap[0])
+    fit_80 = ax.plot(contrasts_fit, prob_right_fit_80, color=cmap[2])
+    data_80 = ax.scatter(contrasts_80, prob_right_80, color=cmap[2])
+    ax.legend([fit_50[0], data_50, fit_20[0], data_20, fit_80[0], data_80],
+              ['p_left=0.5 fit', 'p_left=0.5 data', 'p_left=0.2 fit', 'p_left=0.2 data', 'p_left=0.8 fit', 'p_left=0.8 data'],
+              loc='upper left')
+    ax.set_ylim(-0.05, 1.05)
+    ax.set_ylabel('Probability choosing right')
+    ax.set_xlabel('Contrasts')
+    if title:
+        ax.set_title(title)
+
+    return fig, ax
+
+
+
+
+
+
+
+
+
+
+
+
 # %%
