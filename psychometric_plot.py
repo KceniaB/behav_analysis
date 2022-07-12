@@ -22,16 +22,20 @@ ONE()
 one = ONE() 
 import numpy as np
 import pandas as pd
-from behav_functions import load_trials
+from behav_functions import load_trials 
+import matplotlib.pyplot as plt
 
+#check the eids from a certain subject
 eids = one.search(subject='ZFM-04019')
 len(eids)
 eid = eids[12] 
+#another example session eid, from the link above in the beginning of this file 
 #eid = '4ecb5d24-f5cc-402c-be28-9d0f7cb14b3a' 
 df_Trials = load_trials(eid) 
-import matplotlib.pyplot as plt
 plt.plot(df_Trials.choice)
 plt.show()
+
+#%% Load the trials and plot the psychometric curve 
 trials = one.load_object(eid, 'trials', collection='alf')
 from brainbox.behavior.training import compute_performance
 performance, contrasts, n_contrasts = compute_performance(trials)
