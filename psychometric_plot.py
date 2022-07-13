@@ -422,7 +422,7 @@ for eid in eids[1:len(eids)-1]:
     print(eid, ref.subject,str(ref.date),"performance = ", performance_1, "contrasts = ", performance_2, "n_contrasts = ", performance_3)
     fig, ax = plot_psychometric(trials)
     fig.show()
-    fig.savefig("psychometric_"+ref.subject+str(ref.date)+eid+".png")
+    fig.savefig("psychometric_"+ref.subject+str(ref.date)+eid+".png") 
 
 
 # %%
