@@ -84,9 +84,10 @@ def plot_performance(performance,contrasts,n_contrasts):
     plt.ylabel('Performance') 
     plt.xlabel('Contrasts') 
     plt.xticks(contrasts_2)
-    plt.show() 
+    #fig = plt.gcf()
+    #plt.show() 
     
-    plt.savefig("performance_"+ref.subject+str(ref.date)+eid+".png") 
+    #plt.savefig("performance_"+ref.subject+str(ref.date)+eid+".png") 
     return plt
 
 #%% Loop and plot different sessions 
@@ -94,7 +95,7 @@ def plot_performance(performance,contrasts,n_contrasts):
 """ * * * * * * PLOT DIFFERENT SESSIONS * * * * * * """ 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-for eid in eids[1:len(eids)-1]: 
+for eid in eids[0:len(eids)-1]: 
 #for eid in eids[1:3]: 
     try: 
         trials = one.load_object(eid, 'trials', collection='alf')
@@ -103,7 +104,9 @@ for eid in eids[1:len(eids)-1]:
         performance_mean_wo0 = performance[0:4]
         performance_mean_wo0 = np.append(performance_mean_wo0,performance[5:9])
         fig = plot_performance(performance,contrasts,n_contrasts)
-        #fig.savefig("psychometric_"+ref.subject+str(ref.date)+eid+".png") 
+        #fig.show() 
+        fig.savefig("performance_"+ref.subject+str(ref.date)+eid+".png") 
+        fig.show()
     except: 
         pass
 
@@ -164,8 +167,7 @@ def unsigning_nc(array):
         b = np.sum((array[2],array[6]), dtype=float)
         c = np.sum((array[1],array[7]), dtype=float)
         d = np.sum((array[0],array[8]), dtype=float) 
-    new_array=[]for eid in eids[1:len(eids)-1]: 
-
+    new_array=[]
     new_array = [array[4],a,b,c,d]
     return new_array 
 
@@ -207,13 +209,13 @@ def plot_performance_2(performance,contrasts,n_contrasts):
     plt.ylabel('Performance')
     plt.xlabel('Contrasts') 
     plt.xticks(contrasts_2)
-    plt.show() 
+    #plt.show() 
     
-    plt.savefig("performance_uns"+ref.subject+str(ref.date)+eid+".png") 
+    #plt.savefig("performance_uns"+ref.subject+str(ref.date)+eid+".png") 
     return plt
 
 # %%
-for eid in eids[1:len(eids)-1]: 
+for eid in eids[0:len(eids)-1]: 
     try: 
         trials = one.load_object(eid, 'trials', collection='alf')
         ref = one.eid2ref(eid)
@@ -223,6 +225,8 @@ for eid in eids[1:len(eids)-1]:
         performance_mean_wo0 = performance[0:4]
         performance_mean_wo0 = np.append(performance_mean_wo0,performance[5:9])
         fig = plot_performance_2(unsigned_performance,unsigned_contrasts,unsigned_n_contrasts)
+        fig.savefig("performance_uns"+ref.subject+str(ref.date)+eid+".png") 
+        fig.show()
     except: 
         pass
 
