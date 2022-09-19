@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 from brainbox.behavior.training import compute_performance
 
 #%% Load sessions from a certain animal
-eids = one.search(subject='ZFM-03059') 
+eids = one.search(subject='ZFM-04392') 
 
 #%% 
 new_df = pd.DataFrame()
@@ -56,10 +56,12 @@ for eid in eids[0:len(eids)-1]:
 new_df["mouse_name"], new_df["session_date"], new_df["pm"] = [a,b,c] 
 
 #%%for an example mouse
-new_df_M1 = new_df
-new_df_M1
+new_df_M3 = new_df
+new_df_M3
 #print the entire df 
-print(new_df_M1.to_string())
+print(new_df_M3.to_string())
 
 #save to csv
-#new_df_M1.to_csv('date_and_performance_values_M1.csv')
+new_df_M3.to_csv('date_and_performance_values_M3.csv')
+
+# %%
