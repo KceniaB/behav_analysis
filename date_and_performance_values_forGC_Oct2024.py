@@ -1,7 +1,7 @@
 #%%
 """
 KceniaBougrova 
-15July2022 
+08October2024 
 
 Create a df with the mouse_name, session_date and pm (performance values) 
     eid
